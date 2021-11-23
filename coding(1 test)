@@ -1,0 +1,44 @@
+#define Temp_ Pin A0
+#define Light_ Pin A1
+#define Buzzer_ Pin 2
+#define Light_ LED 3
+double Temp=0;
+int Light=0;
+static unsigned long sensortStamp = 0;
+void setup()
+{
+Serial.begin(9600);
+pinMode(Temp_Pin, INPUT);       
+pinMode(Light_Pin, INPUT); 
+pinMode(Buzzer_Pin, OUTPUT);
+pinMode(Light_LED, OUTPUT);        
+}
+void loop() 
+{
+if(millis() - sensortStamp > 50)              //Every 50ms.
+{
+Temp = map (analogread (temp_pin), 20358, - 40125); / / temperature sensor test results
+Light=analogRead(Light_Pin);
+Serial.print("Temp=");
+Serial.print(Temp); 
+Serial.print("*C");
+Serial.print("   Light=");
+Serial.println(Light);    
+sensortStamp = millis();
+}
+/************Photoresistor controlled LED************************/
+If (light < 200) / / no light
+{
+analogWrite(Light_LED,0);
+}else{
+int PWM=map(Light,0,1023,0,255);
+analogWrite(Light_LED,PWM);      
+}
+/************Temperature sensor control buzzer********************/
+If (temp < 40) / / the temperature is normal
+{
+noTone(Buzzer_Pin); 
+}else{
+tone(Buzzer_Pin,523);  
+}
+}
