@@ -1,0 +1,68 @@
+#define LED 3 //led_1 I/O number is 3
+#define KEY 2 //key_1 I/O number is 2
+ 
+#define LED2 5 //The number of led_2 I/O is 5
+#define KEY2 4 //key_2 I/O number is 4
+ 
+INT KEY_NUM1 = 0; //key_1 value
+int KEY_NUM2 = 0; //key_2 value
+ 
+Invalid setting ()
+{
+  pinMode (LED, output); // led_1 I/O is OUTPUT
+  pinMode(KEY,INPUT_PULLUP); //led_1 I/O is INPUT_PULLUP
+  pinMode (LED2, output);
+  pinMode(KEY2,INPUT_PULLUP);
+  
+  Serial.begin(300);
+}
+ 
+Empty loop()
+{
+  Scan key ();
+  ScanKey2();
+ 
+}
+ 
+
+Invalid scan key ()
+{
+  KEY_NUM1 = 0;
+  if(digitalRead(KEY) == LOW)
+  {
+    Delay (20);
+    if(digitalRead(KEY) == LOW)
+    {
+      KEY_NUM1 = 1;
+      while(digitalRead(KEY) == LOW);
+    }
+    Serial.println(digitalRead(LED));
+  }
+ 
+  If (KEY_NUM1 == 1)
+  {
+    Digital writing (LED,! Digital reading (LED));
+  }
+  
+}
+ 
+// 2
+Invalid ScanKey2()
+{
+  KEY_NUM2 = 0;
+  If (digital read (KEY2) == low)
+  {
+    Delay (20);
+    If (digital read (KEY2) == low)
+    {
+      KEY_NUM2 = 1;
+      while(digitalRead(KEY2) == LOW);
+    }
+      Serial.println(digitalRead(LED2));
+  }
+ 
+  If (KEY_NUM2 == 1)
+  {
+    Digital writing (LED2,! Digital reading (LED2));
+  }
+}
