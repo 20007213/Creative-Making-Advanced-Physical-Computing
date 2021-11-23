@@ -1,0 +1,38 @@
+//PIR ("Passive Infrared Sensor") Motion Sensor, 03 infrared motion sensor, or human body infrared
+Line sensor
+int sensorValue=0;
+int KeylPin=2;
+int ledPin1=13;
+void setup()
+(
+Serial.begin(9600);
+//Set the Serial transmission speed
+
+pinMode(Key1Pin,INPUT);//Set the PIN mode to be read here
+pinMode(ledPin1,OUTPUT);
+}
+
+void loop()
+{
+
+int keystate=digitalRead(Key1Pin);//Get the value of the digital input PIN pin
+
+if(keystate==1)
+
+(
+Serial.print("Safe");
+//Safety
+
+digitalWrite(ledPin1,LOW);
+//LED is on
+
+｝Else{
+Serial.print("Detected");
+// detected
+digitalWrite(ledPin1,HIGH);
+//LED dark
+
+{
+Serial.println(" ");
+delay(1000);
+}
