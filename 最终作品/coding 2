@@ -1,0 +1,73 @@
+#define R_LED 9
+#define G_LED 10
+#define B_LED 11
+#define Sensor_Pin 2        //定义D2号引脚为Sensor_Pin
+#define LED_Pin 3           //定义D3号引脚为LED_Pin
+static int Sensor_Val = 0;  //静态整型变量Sensor_Val，储存传感器的值
+static unsigned long sensortStamp = 0;   //静态无符号长整型变量sensortStamp，储存计时器时间，ms
+static int RGB_Flag=0;
+void LED_ON();        //子函数，控制开灯
+void LED_OFF();       //子函数，控制关灯
+void setup() 
+{
+  // put your setup code here, to run once:
+    Serial.begin(9600);         //初始化串口波特率为9600
+    pinMode(Sensor_Pin,INPUT);  //输入模式
+    pinMode(LED_Pin,OUTPUT);    //输出模式
+    pinMode(R_LED,OUTPUT);       //设置R_LED为输出模式
+    pinMode(G_LED,OUTPUT);       //设置Y_LED为输出模式
+    pinMode(B_LED,OUTPUT);       //设置G_LED为输出模式
+    Sensor_Val = 0;             //初始值为0  
+}
+
+void loop() 
+{
+    if(millis() - sensortStamp > 50)            //每50ms刷新一次
+    {
+        Sensor_Val = digitalRead(Sensor_Pin);   //根据传感器定义，遮挡为HIGH
+        Serial.print("Sensor_Val=");            //串口打印Sensor_Val
+        Serial.println(Sensor_Val);    
+        sensortStamp = millis();
+    }
+    if(Sensor_Val==HIGH)
+    {
+        LED_ON();  
+    }
+    else if(Sensor_Val==LOW)
+    {
+        LED_OFF();  
+    }
+/***********触摸传感器控制RGB****************/
+    if(analogRead(A2)<200)
+    {
+        LED_RGB(0,0,0);
+    }
+    else if(analogRead(A2)>=200 && analogRead(A2)<=400)
+    {
+        LED_RGB(255,0,0);
+    }
+    else if(analogRead(A2)>=400 && analogRead(A2)<=600)
+    {
+        LED_RGB(0,255,0);
+    }
+    else if(analogRead(A2)>=600)
+    {
+        LED_RGB(0,0,255);
+    }   
+}
+
+void LED_ON()        //子函数，控制开灯
+{
+    digitalWrite(LED_Pin,LOW); 
+}
+
+void LED_OFF()       //子函数，控制关灯
+{
+    digitalWrite(LED_Pin,HIGH); 
+}
+void LED_RGB(int R,int G,int B)
+{
+   analogWrite(R_LED,R);    //绿灯亮5秒
+   analogWrite(G_LED,G); 
+   analogWrite(B_LED,B); 
+}
